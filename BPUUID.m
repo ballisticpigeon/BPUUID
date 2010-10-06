@@ -94,6 +94,43 @@
 }
 
 #pragma mark -
+#pragma mark Hashing and equality
+
+- (NSUInteger)hash {
+#if __LP64__
+    union {
+        CFUUIDBytes bytes;
+        uint64_t longs[2];
+    } onion;
+    
+    onion.bytes = CFUUIDGetUUIDBytes(CFUUID);
+    
+    return onion.longs[0] ^ onion.longs[1];    
+#else
+    union {
+        CFUUIDBytes bytes;
+        uint32_t longs[4];
+    } onion;
+    
+    onion.bytes = CFUUIDGetUUIDBytes(CFUUID);
+    
+    return onion.longs[0] ^ onion.longs[1] ^ onion.longs[2] ^ onion.longs[3];
+#endif
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]])
+        return NO;
+    
+    BPUUID *other = object;
+    
+    CFUUIDBytes myBytes = CFUUIDGetUUIDBytes(CFUUID);
+    CFUUIDBytes otherBytes = CFUUIDGetUUIDBytes(other.CFUUID);
+    
+    return (memcmp(&myBytes, &otherBytes, sizeof(myBytes)) == 0);
+}
+
+#pragma mark -
 #pragma mark Description
 
 - (NSString *)description {
