@@ -149,4 +149,11 @@
 	[encoder encodeObject:[self stringRepresentation] forKey:@"UUID"];
 }
 
+#pragma mark -
+#pragma mark NSCopying implementation
+
+- (id)copyWithZone:(NSZone *)zone {
+    return [[BPUUID allocWithZone:zone] initWithCFUUID:CFUUID];
+}
+
 @end

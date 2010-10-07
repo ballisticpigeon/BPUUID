@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface BPUUID : NSObject <NSCoding> {
+@interface BPUUID : NSObject <NSCoding, NSCopying> {
 	CFUUIDRef CFUUID;
 }
 
