@@ -54,6 +54,10 @@
 - (id)initWithString:(NSString *)uuidString {
 	if (self = [super init]) {
 		CFUUID = CFUUIDCreateFromString(NULL, (CFStringRef)uuidString);
+        if (!CFUUID) {
+            [self release];
+            return  nil;
+        }
 	}
 	
 	return self;
@@ -62,9 +66,16 @@
 - (id)initWithBytes:(NSData *)uuidBytes {
 	if (self = [super init]) {
 		CFUUIDBytes bytes;
-		assert(sizeof(bytes) == [uuidBytes length]);
+        if ([uuidBytes length] != sizeof(bytes)) {
+            [self release];
+            return nil;
+        }
 		[uuidBytes getBytes:&bytes];
 		CFUUID = CFUUIDCreateFromUUIDBytes(NULL, bytes);
+        if (!CFUUID) {
+            [self release];
+            return nil;
+        }
 	}
 	
 	return self;
