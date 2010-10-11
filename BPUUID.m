@@ -82,7 +82,8 @@
 }
 
 - (void)dealloc {
-	CFRelease(CFUUID);
+    if (CFUUID)
+        CFRelease(CFUUID);
 	[super dealloc];
 }
 
