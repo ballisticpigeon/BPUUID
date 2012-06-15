@@ -1,6 +1,5 @@
 //
 //  BPUUID.h
-//  Skates
 //
 //  Created by Jon Olson on 2/3/10.
 //  Copyright 2010 Ballistic Pigeon, LLC. All rights reserved.
